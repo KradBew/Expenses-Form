@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Demandante Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      min-height: 100vh;
+      background-color: #f2f2f2;
+    }
+    .form-container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    label {
+      margin-top: 15px;
+      display: block;
+      font-weight: bold;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      box-sizing: border-box;
+    }
+    textarea {
+      resize: vertical;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #2e8b57;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #246b46;
+    }
+    .success-message {
+      display: none;
+      text-align: center;
+      margin-top: 20px;
+      background: #e0ffe0;
+      padding: 15px;
+      border-radius: 5px;
+    }
+    .success-message pre {
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Demandante Entry</h2>
+    <form id="dataForm">
+      <label>Entity</label>
+      <input type="text" name="Entity" required />
+
+      <label>Amount</label>
+      <input type="text" name="Amount" placeholder="Php#,###.##" required />
+
+      <label>Category</label>
+      <select id="category" name="Category" required>
+        <option value="">Select Category</option>
+        <option value="Groceries">Groceries</option>
+        <option value="Insurance">Insurance</option>
+        <option value="Giving">Giving</option>
+        <option value="Health & Wellness">Health & Wellness</option>
+        <option value="Education">Education</option>
+        <option value="House Maintenance & Repairs">House Maintenance & Repairs</option>
+        <option value="Entertainment & Leisure">Entertainment & Leisure</option>
+        <option value="Food & Dining">Food & Dining</option>
+        <option value="Transportation">Transportation</option>
+        <option value="Shopping">Shopping</option>
+        <option value="Housing & Utilities">Housing & Utilities</option>
+        <option value="Personal Care">Personal Care</option>
+      </select>
+
+      <label>Sub Category</label>
+      <select id="subCategory" name="SubCategory" required>
+        <option value="">Select Sub Category</option>
+      </select>
+
+      <label>Source Account</label>
+      <select name="SourceAccount" required>
+        <option value="">Select Account</option>
+        <option>Debit - Jay BPI</option>
+        <option>Debit - Jay Emapta Payroll SB</option>
+        <option>Debit - Demandante Family BPI</option>
+        <option>Gcash - Jay</option>
+        <option>Dorina Gcash</option>
+        <option>Cash - Demandante Family</option>
+        <option>Cash - Dorina</option>
+        <option>Cash - Jay</option>
+        <option>Debit - Dorina BPI</option>
+        <option>Debit - Dorina RCBC</option>
+        <option>Paypal - Jay</option>
+        <option>Debit - Printworks+ BPI</option>
+        <option>Debit - Emergency Fund BPI</option>
+        <option>Credit Card - Dorina UB</option>
+        <option>Credit Card - Dorina RCBC</option>
+        <option>Credit Card - Jay BPI</option>
+      </select>
+
+      <label>Date</label>
+      <input type="date" name="Date" id="todayDate" required />
+
+      <label>Note</label>
+      <textarea name="Note" rows="3" placeholder="Add a note..."></textarea>
+
+      <label>PIN</label>
+      <input type="password" id="pinInput" placeholder="Enter PIN" required />
+
+      <button type="submit">Submit</button>
+    </form>
+
+    <div class="success-message" id="successMessage">
+      <h3>✅ Submitted Successfully!</h3>
+      <div id="submittedDetails"></div>
+      <button onclick="resetForm()">Submit New Entry</button>
+    </div>
+  </div>
+
+  <script>
+    // Set today’s date
+    document.getElementById("todayDate").valueAsDate = new Date();
+
+    // Sub-categories map
+    const subCategories = {
+      "Insurance": ["Life Insurance", "Car Insurance", "Health Insurance", "Home Insurance", "Business Insurance"],
+      "Giving": ["Charities", "Church", "Political", "Birthday", "Wedding", "Other Gift"],
+      "Health & Wellness": ["Dental", "Mental", "Vision", "Drugs", "Vitamins", "Hospital", "Gym/Fitness"],
+      "Education": ["Tuition Fees", "Books & Study Materials", "Online Courses or Workshops", "School Supplies"],
+      "House Maintenance & Repairs": ["Cleaning Supplies & Services", "Gardening", "Home Repairs", "Tool & Materials for Home Improvement"],
+      "Entertainment & Leisure": ["Subscriptions", "Hobbies", "Travel", "Movies, Theater, Events"],
+      "Food & Dining": ["Restaurant and Cafes", "Fast Food or Takeout", "Food Delivery", "Snack & Beverages"],
+      "Transportation": ["Gas/Fuel", "Parking", "Public Transportation", "Auto Loan", "Road Toll", "Maintenance"],
+      "Shopping": ["Clothing", "Shoes", "Bags", "Cosmetic", "Digital", "Jewelry", "Accessories"],
+      "Housing & Utilities": ["Mortgage", "Rent", "Electric", "Gas (home)", "Phone", "Cable", "Internet", "Trash"],
+      "Personal Care": ["Haircuts", "Hair color", "Nail Salon", "Massage", "SkinCare"],
+      "Groceries": ["Groceries"]
+    };
+
+    const categorySelect = document.getElementById("category");
+    const subCategorySelect = document.getElementById("subCategory");
+
+    categorySelect.addEventListener("change", function () {
+      const selected = this.value;
+      subCategorySelect.innerHTML = "<option value=''>Select Sub Category</option>";
+      if (subCategories[selected]) {
+        subCategories[selected].forEach(item => {
+          const option = document.createElement("option");
+          option.value = item;
+          option.textContent = item;
+          subCategorySelect.appendChild(option);
+        });
+      }
+    });
+
+    const form = document.getElementById("dataForm");
+    const successBox = document.getElementById("successMessage");
+    const submittedDetails = document.getElementById("submittedDetails");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const pin = document.getElementById("pinInput").value.trim();
+      if (pin !== "1995") {
+        alert("❌ Incorrect PIN. Submission blocked.");
+        return;
+      }
+
+      const formData = new FormData(form);
+      const json = {};
+      formData.forEach((value, key) => json[key] = value);
+
+      fetch("https://sheetdb.io/api/v1/pfc8tl9kb92zc", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ data: json })
+      })
+      .then(response => response.json())
+      .then(() => {
+        form.style.display = "none";
+        successBox.style.display = "block";
+        submittedDetails.innerHTML = "<pre>" + JSON.stringify(json, null, 2) + "</pre>";
+      })
+      .catch(err => alert("Error submitting data: " + err));
+    });
+
+    function resetForm() {
+      document.getElementById("dataForm").reset();
+      document.getElementById("dataForm").style.display = "block";
+      document.getElementById("successMessage").style.display = "none";
+      document.getElementById("todayDate").valueAsDate = new Date();
+    }
+  </script>
+</body>
+</html>
