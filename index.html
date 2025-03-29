@@ -14,6 +14,7 @@
       min-height: 100vh;
       background-color: #f2f2f2;
     }
+
     .form-container {
       background: white;
       padding: 30px;
@@ -22,24 +23,29 @@
       width: 100%;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
+
     h2 {
       text-align: center;
       margin-bottom: 20px;
     }
+
     label {
       margin-top: 15px;
       display: block;
       font-weight: bold;
     }
+
     input, select, textarea {
       width: 100%;
       padding: 8px;
       margin-top: 5px;
       box-sizing: border-box;
     }
+
     textarea {
       resize: vertical;
     }
+
     button {
       width: 100%;
       padding: 10px;
@@ -51,9 +57,11 @@
       margin-top: 20px;
       cursor: pointer;
     }
+
     button:hover {
       background-color: #246b46;
     }
+
     .success-message {
       display: none;
       text-align: center;
@@ -62,18 +70,21 @@
       padding: 15px;
       border-radius: 5px;
     }
+
     .success-message pre {
       text-align: left;
     }
+
     .checkbox-group {
       display: flex;
       align-items: center;
+      gap: 10px;
       margin-top: 15px;
     }
-    .checkbox-group label {
-      font-weight: normal;
-      margin-left: 8px;
-      margin-top: 0;
+
+    input[type="checkbox"] {
+      transform: scale(1.2);
+      cursor: pointer;
     }
   </style>
 </head>
@@ -118,22 +129,22 @@
       <label>Source Account</label>
       <select name="SourceAccount" required>
         <option value="">Select Account</option>
-        <option>Debit - Demandante Family BPI</option>
-        <option>Debit - Jay BPI</option>
-        <option>Debit - Jay Emapta Payroll SB</option>
-        <option>Debit - Dorina BPI</option>
-        <option>Debit - Dorina RCBC</option>
-        <option>Debit - Printworks+ BPI</option>
-        <option>Debit - Emergency Fund BPI</option>
-        <option>Credit Card - Dorina UB</option>
-        <option>Credit Card - Dorina RCBC</option>
-        <option>Credit Card - Jay BPI</option>
-        <option>Gcash - Jay</option>
-        <option>Gcash - Dorina</option>
-        <option>Cash - Demandante Family</option>
-        <option>Cash - Dorina</option>
-        <option>Cash - Jay</option>
-        <option>Paypal - Jay</option>
+        <option value="Debit - Demandante Family BPI">Debit - Demandante Family BPI</option>
+        <option value="Debit - Jay BPI">Debit - Jay BPI</option>
+        <option value="Debit - Jay Emapta Payroll SB">Debit - Jay Emapta Payroll SB</option>
+        <option value="Debit - Dorina BPI">Debit - Dorina BPI</option>
+        <option value="Debit - Dorina RCBC">Debit - Dorina RCBC</option>
+        <option value="Debit - Printworks+ BPI">Debit - Printworks+ BPI</option>
+        <option value="Debit - Emergency Fund BPI">Debit - Emergency Fund BPI</option>
+        <option value="Credit Card - Dorina UB">Credit Card - Dorina UB</option>
+        <option value="Credit Card - Dorina RCBC">Credit Card - Dorina RCBC</option>
+        <option value="Credit Card - Jay BPI">Credit Card - Jay BPI</option>
+        <option value="Gcash - Jay">Gcash - Jay</option>
+        <option value="Gcash - Dorina">Gcash - Dorina</option>
+        <option value="Cash - Demandante Family">Cash - Demandante Family</option>
+        <option value="Cash - Dorina">Cash - Dorina</option>
+        <option value="Cash - Jay">Cash - Jay</option>
+        <option value="Paypal - Jay">Paypal - Jay</option>
       </select>
 
       <label>Date</label>
@@ -142,7 +153,7 @@
       <label>Note</label>
       <textarea name="Note" rows="3" placeholder="Add a note..."></textarea>
 
-      <!-- Checkbox with fallback hidden input -->
+      <!-- Debt checkbox with hidden fallback -->
       <input type="hidden" name="Debt" value="no">
       <div class="checkbox-group">
         <input type="checkbox" id="debtCheckbox" name="Debt" value="yes">
