@@ -65,6 +65,16 @@
     .success-message pre {
       text-align: left;
     }
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      margin-top: 15px;
+    }
+    .checkbox-group label {
+      font-weight: normal;
+      margin-left: 8px;
+      margin-top: 0;
+    }
   </style>
 </head>
 <body>
@@ -72,7 +82,13 @@
     <h2>Demandante Entry</h2>
     <form id="dataForm">
       <label>Entity</label>
-      <input type="text" name="Entity" required />
+      <select id="Entity" name="Entity" required>
+        <option value="">Select Entity</option>
+        <option value="Demandante Family">Demandante Family</option>
+        <option value="Jay">Jay</option>
+        <option value="Dorina">Dorina</option>
+        <option value="Printworks+">Printworks+</option>
+      </select>
 
       <label>Amount</label>
       <input type="text" name="Amount" placeholder="Php#,###.##" required />
@@ -102,22 +118,22 @@
       <label>Source Account</label>
       <select name="SourceAccount" required>
         <option value="">Select Account</option>
+        <option>Debit - Demandante Family BPI</option>
         <option>Debit - Jay BPI</option>
         <option>Debit - Jay Emapta Payroll SB</option>
-        <option>Debit - Demandante Family BPI</option>
-        <option>Gcash - Jay</option>
-        <option>Dorina Gcash</option>
-        <option>Cash - Demandante Family</option>
-        <option>Cash - Dorina</option>
-        <option>Cash - Jay</option>
         <option>Debit - Dorina BPI</option>
         <option>Debit - Dorina RCBC</option>
-        <option>Paypal - Jay</option>
         <option>Debit - Printworks+ BPI</option>
         <option>Debit - Emergency Fund BPI</option>
         <option>Credit Card - Dorina UB</option>
         <option>Credit Card - Dorina RCBC</option>
         <option>Credit Card - Jay BPI</option>
+        <option>Gcash - Jay</option>
+        <option>Gcash - Dorina</option>
+        <option>Cash - Demandante Family</option>
+        <option>Cash - Dorina</option>
+        <option>Cash - Jay</option>
+        <option>Paypal - Jay</option>
       </select>
 
       <label>Date</label>
@@ -125,6 +141,13 @@
 
       <label>Note</label>
       <textarea name="Note" rows="3" placeholder="Add a note..."></textarea>
+
+      <!-- Checkbox with fallback hidden input -->
+      <input type="hidden" name="Debt" value="no">
+      <div class="checkbox-group">
+        <input type="checkbox" id="debtCheckbox" name="Debt" value="yes">
+        <label for="debtCheckbox">Debt</label>
+      </div>
 
       <label>PIN</label>
       <input type="password" id="pinInput" placeholder="Enter PIN" required />
@@ -156,7 +179,7 @@
       "Shopping": ["Clothing", "Shoes", "Bags", "Cosmetic", "Digital", "Jewelry", "Accessories"],
       "Housing & Utilities": ["Mortgage", "Rent", "Electric", "Gas (home)", "Phone", "Cable", "Internet", "Trash"],
       "Personal Care": ["Haircuts", "Hair color", "Nail Salon", "Massage", "SkinCare"],
-      "Groceries": ["Groceries"]
+      "Groceries": ["Personal Care", "Home Decor & Furniture", "Household Items", "Food and Drinks"]
     };
 
     const categorySelect = document.getElementById("category");
